@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { PlanService } from '../../services/plan-service';
 import { Plan } from '../../models/plan-pago';
 import { UsuarioService } from '../../services/usuario-service';
+import { Usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-home-component',
@@ -21,6 +22,8 @@ export class HomeComponent {
   vistaActual: string;
   filtroActual: string = "Precio";
 
+  usuarioLogeado: Usuario | undefined;
+
   constructor(private propiedadService: PropiedadService, private homeService: HomeService, private router: Router, private planService: PlanService, private usuarioService: UsuarioService, private cdr: ChangeDetectorRef){
     this.vistaActual = homeService.getVista();
   }
@@ -28,6 +31,8 @@ export class HomeComponent {
   ngOnInit(){
     this.cargarPropiedades();
     this.cargarPlanes();
+
+    this.cargarUsuario();
 
     this.cdr.detectChanges();
   }
@@ -108,5 +113,25 @@ export class HomeComponent {
         console.error("Error fetching vivienda:", err);
       }
     });
+  }
+
+  getUsuarioId(){
+    return this.usuarioService.getUsuarioId();
+  }
+  getUsuario(id: number){
+    return this.usuarioService.getUsuarioById(id);
+  }
+  cargarUsuario(){
+    const usuarioId = this.getUsuarioId();
+    if(usuarioId){
+      this.usuarioService.getUsuarioById(usuarioId).subscribe({
+        next: (usuario) =>{
+          this.usuarioLogeado = usuario;
+        },
+        error: (err) =>{
+
+        }
+      })
+    }
   }
 }

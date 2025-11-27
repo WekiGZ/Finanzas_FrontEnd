@@ -8,6 +8,7 @@ import { HomeComponent } from './components/home-component/home-component';
 import { MaterialModule } from './modules/material/material-module';
 import { CrearPlanComponent } from './components/crear-plan-component/crear-plan-component';
 import { MostrarPlanComponent } from './components/mostrar-plan-component/mostrar-plan-component';
+import { RegistroComponent } from './components/registro-component/registro-component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     HomeComponent,
     CrearPlanComponent,
-    MostrarPlanComponent
+    MostrarPlanComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,

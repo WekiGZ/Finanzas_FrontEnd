@@ -21,7 +21,9 @@ export class UsuarioService {
   login(usuario: Usuario) {
     return this.http.post<Usuario>(`${this.baseUrl}/login`, usuario).pipe(
       tap((respuesta: Usuario) => {
-        localStorage.setItem("usuarioId", respuesta.id.toString());
+        if(respuesta.usuario_id){
+          localStorage.setItem("usuarioId", respuesta.usuario_id.toString());
+        }
       })
     );
   }
@@ -31,9 +33,8 @@ export class UsuarioService {
   }
 
   getUsuarioId(): number | null {
-    //const id = localStorage.getItem("usuarioId");
-    //return id ? parseInt(id, 10) : null;
-    return 1;
+    const id = localStorage.getItem("usuarioId");
+    return id ? parseInt(id, 10) : null;
   }
 
   getUsuarioById(usuarioId: number){
@@ -45,8 +46,8 @@ export class UsuarioService {
   }
 
   usuario: Usuario = {
-    id: 1,
-    user: "UserPrueba",
+    usuario_id: 1,
+    username: "UserPrueba",
     password: "PasswordPrueba",
 
     salario: 4000,

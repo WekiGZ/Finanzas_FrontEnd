@@ -1,6 +1,6 @@
 export interface Usuario{
-    id: number,
-    user: string,
+    usuario_id: number | null,
+    username: string,
     password: string,
 
     salario: number,

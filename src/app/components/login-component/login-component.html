@@ -1,10 +1,38 @@
 <div class="container">
-    <div class="left-side">
-        <img src="imagenes/MiViviendaLogo.png">
+  <div class="left-side">
+    <img src="imagenes/MiViviendaLogo.png" alt="MiVivienda Logo" />
+    <p class="brand-text">Tu compañero para planificar tu vivienda</p>
+  </div>
+  <div class="right-side">
+    <div class="form-container">
+      <h1>Bienvenido</h1>
+      <p class="subtitle">Inicia sesión para continuar con tu plan</p>
+      <form class="form" (submit)="intentarIngresar($event)">
+        <label for="correo">Usuario</label>
+        <input
+          id="correo"
+          type="email"
+          required
+          placeholder="nombre de usuario"
+          [value]="correo"
+          (input)="actualizarCorreo($event)"
+        />
+
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          required
+          minlength="6"
+          placeholder="••••••••"
+          [value]="password"
+          (input)="actualizarPassword($event)"
+        />
+
+        <button class="primary" type="submit">Ingresar</button>
+        <button class="ghost" type="button" (click)="irARegistro()">Crear cuenta</button>
+      </form>
+      <p *ngIf="mensaje" class="mensaje" [ngClass]="mensajeTipo">{{ mensaje }}</p>
     </div>
-    <div class="right-side">
-        <div class="form-container">
-            <h1>Bienvenido</h1>
-        </div>
-    </div>
+  </div>
 </div>
