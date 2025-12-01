@@ -24,6 +24,9 @@ export class HomeComponent {
 
   usuarioLogeado: Usuario | undefined;
 
+  mensajeCuenta: string | null = null;
+  tipoMensajeCuenta: 'ok' | 'error' | null = null;
+
   constructor(private propiedadService: PropiedadService, private homeService: HomeService, private router: Router, private planService: PlanService, private usuarioService: UsuarioService, private cdr: ChangeDetectorRef){
     this.vistaActual = homeService.getVista();
   }
@@ -133,5 +136,37 @@ export class HomeComponent {
         }
       })
     }
+  }
+
+  guardarCuenta(): void {
+    if (!this.usuarioLogeado || this.usuarioLogeado.usuario_id == null) {
+      this.mensajeCuenta = 'No se encontró el usuario.';
+      this.tipoMensajeCuenta = 'error';
+      return;
+    }
+
+    const id = this.usuarioLogeado.usuario_id;
+
+    const body = {
+      edad: this.usuarioLogeado.edad,
+      salario: this.usuarioLogeado.salario,
+      discapacidad: this.usuarioLogeado.discapacidad,
+      desplazado: this.usuarioLogeado.desplazado,
+      migrante: this.usuarioLogeado.migrante
+    };
+
+    this.usuarioService.actualizarCuenta(id, body).subscribe({
+      next: (usuarioActualizado) => {
+        this.usuarioLogeado = usuarioActualizado;
+        this.mensajeCuenta = 'Datos de cuenta actualizados correctamente.';
+        this.tipoMensajeCuenta = 'ok';
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al actualizar cuenta', err);
+        this.mensajeCuenta = 'Ocurrió un error al guardar los cambios.';
+        this.tipoMensajeCuenta = 'error';
+      }
+    });
   }
 }

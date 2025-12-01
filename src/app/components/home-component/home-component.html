@@ -63,11 +63,14 @@
                 </div>
                 <h1 style="text-align: center;">Viviendas</h1>
                 <div class="list">
-                    <div *ngFor="let propiedad of propiedades" class="propiedad" (click)="crearPlan(propiedad.propiedad_id)">
+                    <div *ngFor="let propiedad of propiedades" class="propiedad"
+                        (click)="crearPlan(propiedad.propiedad_id)">
                         <img src="imagenes/propiedades/{{propiedad.nombre}}.png" style="width: 100%;">
                         <br>
-                        <p style="margin: 2px; font-weight: bold; font-size: calc(15px + 0.3vw);">{{propiedad.nombre}} - S/{{propiedad.valor_vivienda}}</p>
-                        <p style="margin: 2px; font-size: calc(12px + 0.2vw);">{{propiedad.area}}m², {{propiedad.habitaciones}} habitaciones, {{propiedad.banos}} baños</p>
+                        <p style="margin: 2px; font-weight: bold; font-size: calc(15px + 0.3vw);">{{propiedad.nombre}} -
+                            S/{{propiedad.valor_vivienda}}</p>
+                        <p style="margin: 2px; font-size: calc(12px + 0.2vw);">{{propiedad.area}}m²,
+                            {{propiedad.habitaciones}} habitaciones, {{propiedad.banos}} baños</p>
                         <br>
                     </div>
                 </div>
@@ -104,15 +107,78 @@
                     <div *ngFor="let plan of planes" class="propiedad" (click)="mostrarPlan(plan.id)">
                         <img src="imagenes/propiedades/{{plan.nombrePropiedad}}.png" style="width: 100%;">
                         <br>
-                        <p style="margin: 2px; font-weight: bold; font-size: calc(15px + 0.3vw);">{{plan.nombrePropiedad}}_{{plan.id}}</p>
+                        <p style="margin: 2px; font-weight: bold; font-size: calc(15px + 0.3vw);">
+                            {{plan.nombrePropiedad}}_{{plan.id}}</p>
                         <br>
                     </div>
                 </div>
             </div>
-            <div *ngIf='vistaActual == "Cuenta"'>
-                <h1 style="text-align: center;">Cuenta</h1>
-                <p>{{usuarioLogeado?.username}}</p>
+            <div *ngIf="vistaActual == 'Cuenta'" class="cuenta-page">
+                <div class="cuenta-header">
+                    <h1>Mivivienda App</h1>
+                    <p>Actualiza tus datos personales para obtener un BBP más preciso.</p>
+                </div>
+
+                <div class="cuenta-card">
+                    <div class="cuenta-card-header">
+                        <div class="cuenta-avatar">
+                            {{ usuarioLogeado?.username?.charAt(0) | uppercase }}
+                        </div>
+                        <div>
+                            <h2>Cuenta</h2>
+                            <span class="cuenta-username">@{{ usuarioLogeado?.username }}</span>
+                        </div>
+                    </div>
+
+                    <form class="cuenta-form" (ngSubmit)="guardarCuenta()">
+                        <div class="cuenta-grid">
+                            <div class="cuenta-field">
+                                <label>Edad</label>
+                                <input type="number" name="edad" [(ngModel)]="usuarioLogeado!.edad" required min="18" />
+                            </div>
+
+                            <div class="cuenta-field">
+                                <label>Salario mensual</label>
+                                <input type="number" name="salario" [(ngModel)]="usuarioLogeado!.salario" required
+                                    min="0" step="0.01" />
+                            </div>
+                        </div>
+
+                        <div class="cuenta-divider">
+                            <span>Condiciones especiales</span>
+                        </div>
+
+                        <div class="cuenta-checks">
+                            <label class="cuenta-check">
+                                <input type="checkbox" name="discapacidad" [(ngModel)]="usuarioLogeado!.discapacidad" />
+                                Persona con discapacidad
+                            </label>
+
+                            <label class="cuenta-check">
+                                <input type="checkbox" name="desplazado" [(ngModel)]="usuarioLogeado!.desplazado" />
+                                Desplazado
+                            </label>
+
+                            <label class="cuenta-check">
+                                <input type="checkbox" name="migrante" [(ngModel)]="usuarioLogeado!.migrante" />
+                                Migrante
+                            </label>
+                        </div>
+
+                        <button type="submit" class="cuenta-button">
+                            Guardar cambios
+                        </button>
+
+                        <p *ngIf="mensajeCuenta" [ngClass]="{
+          'cuenta-msg-ok': tipoMensajeCuenta === 'ok',
+          'cuenta-msg-error': tipoMensajeCuenta === 'error'
+        }" class="cuenta-msg">
+                            {{ mensajeCuenta }}
+                        </p>
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
 </div>

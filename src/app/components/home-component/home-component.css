@@ -3,7 +3,6 @@
 
     background-color: #fef7ff;
 }
-
 .main{
     width: 95%;
     height: 95%;
@@ -131,4 +130,252 @@
 button{
     background-color: #fef7ff00;
     border: none;
+}
+
+/* --------- Sección Cuenta (bonita) --------- */
+
+.cuenta-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 3rem;
+  background: radial-gradient(circle at top left, #fdf2ff 0, transparent 50%),
+              radial-gradient(circle at bottom right, #e3f2fd 0, transparent 55%);
+}
+
+.cuenta-header {
+  text-align: center;
+  margin-bottom: 1.4rem;
+}
+
+.cuenta-header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.cuenta-header p {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.cuenta-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.6);
+  padding: 1.8rem 2rem 2.2rem;
+}
+
+.cuenta-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 0.6rem;
+}
+
+.cuenta-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #1976d2, #42a5f5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 8px 18px rgba(25, 118, 210, 0.4);
+}
+
+.cuenta-title-block h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.cuenta-username {
+  display: inline-block;
+  margin-top: 0.05rem;
+  font-size: 0.88rem;
+  color: #7b7b7b;
+}
+
+.cuenta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+}
+
+.cuenta-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  background: #f3f4ff;
+  color: #4b5563;
+  border: 1px solid rgba(129, 140, 248, 0.4);
+}
+
+.cuenta-badge.primary {
+  background: linear-gradient(135deg, #1976d2, #0d47a1);
+  color: #fff;
+  border: none;
+}
+
+.cuenta-subinfo {
+  font-size: 0.83rem;
+  color: #6b7280;
+  margin: 0.15rem 0 0.8rem;
+}
+
+.cuenta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cuenta-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+}
+
+@media (min-width: 600px) {
+  .cuenta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.cuenta-field label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.cuenta-field input {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid #d5d5d5;
+  font-size: 0.95rem;
+  background: #fbfbff;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.cuenta-field input:focus {
+  outline: none;
+  border-color: #1976d2;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.16);
+}
+
+.helper {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.cuenta-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #777;
+  margin-top: 0.4rem;
+}
+
+.cuenta-divider::before,
+.cuenta-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eceff4;
+}
+
+.cuenta-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 0.4rem;
+}
+
+.cuenta-check {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.cuenta-check input {
+  width: 17px;
+  height: 17px;
+}
+
+.cuenta-button {
+  margin-top: 0.3rem;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.1s ease;
+}
+
+.cuenta-button:hover {
+  box-shadow: 0 10px 22px rgba(21, 101, 192, 0.35);
+  transform: translateY(-1px);
+}
+
+.cuenta-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+  opacity: 0.9;
+}
+
+.cuenta-msg {
+  margin-top: 0.7rem;
+  font-size: 0.83rem;
+  text-align: center;
+}
+
+.cuenta-msg-ok {
+  color: #15803d;
+}
+
+.cuenta-msg-error {
+  color: #c62828;
+}
+
+.sidebar,
+.menu-desplegado,
+.menu-container {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 200px;   
+  height: 100vh;
+  background: #fdf0ff;
+  display: flex;
+  flex-direction: column;
+  padding-top: 2rem;
+  z-index: 100;
+}
+
+.main-content {
+  margin-left: 200px;
 }

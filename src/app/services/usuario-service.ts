@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,26 +10,24 @@ export class UsuarioService {
 
   private baseUrl = 'http://localhost:8080/mivivienda/usuarios';
 
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient) { }
 
-  }
-
-  getUsuarios(){
+  getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(`${this.baseUrl}/listar`);
   }
 
-  login(usuario: Usuario) {
+  login(usuario: Usuario): Observable<Usuario> {
     return this.http.post<Usuario>(`${this.baseUrl}/login`, usuario).pipe(
       tap((respuesta: Usuario) => {
-        if(respuesta.usuario_id){
+        if (respuesta.usuario_id != null) {
           localStorage.setItem("usuarioId", respuesta.usuario_id.toString());
         }
       })
     );
   }
 
-  logout(){
-    localStorage.removeItem("usuarioId")
+  logout() {
+    localStorage.removeItem("usuarioId");
   }
 
   getUsuarioId(): number | null {
@@ -37,24 +35,27 @@ export class UsuarioService {
     return id ? parseInt(id, 10) : null;
   }
 
-  getUsuarioById(usuarioId: number){
+  getUsuarioById(usuarioId: number): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.baseUrl}/mostrar/${usuarioId}`);
   }
 
-  registro(usuario: Usuario){
-    return this.http.post<Usuario>(`${this.baseUrl}/registro`, usuario)
+  registro(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(`${this.baseUrl}/registro`, usuario);
   }
 
-  usuario: Usuario = {
-    usuario_id: 1,
-    username: "UserPrueba",
-    password: "PasswordPrueba",
-
-    salario: 4000,
-    edad: 50,
-
-    discapacidad: true,
-    desplazado: false,
-    migrante: false
+  actualizarCuenta(
+    id: number,
+    cuenta: {
+      edad: number;
+      salario: number;
+      discapacidad: boolean;
+      desplazado: boolean;
+      migrante: boolean;
+    }
+  ): Observable<Usuario> {
+    return this.http.put<Usuario>(
+      `${this.baseUrl}/${id}/cuenta`,
+      cuenta
+    );
   }
 }

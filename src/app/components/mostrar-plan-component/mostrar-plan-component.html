@@ -28,7 +28,8 @@
         </div>
         <div class="content">
             <h1>Plan de Pago</h1>
-            <p style="text-align: center;">Las cuotas incluyen el seguro Desgravamen, según</p>
+            <p style="text-align: center;">Las cuotas incluyen el seguro Desgravamen</p>
+
             <div>
                 <table mat-table [dataSource]="dataSource" class="table">
                     <ng-container matColumnDef="nCuota">
@@ -71,9 +72,24 @@
                         <td mat-cell *matCellDef="let cuota" class="column"> {{cuota.seguroDesgravamen | number:'1.2-3'}} </td>
                     </ng-container>
 
+                    <ng-container matColumnDef="portes">
+                        <th mat-header-cell *matHeaderCellDef class="columnName"> Portes </th>
+                        <td mat-cell *matCellDef="let cuota" class="column"> {{cuota.portes | number:'1.2-3'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="comision">
+                        <th mat-header-cell *matHeaderCellDef class="columnName"> Comisión </th>
+                        <td mat-cell *matCellDef="let cuota" class="column"> {{cuota.comision | number:'1.2-3'}} </td>
+                    </ng-container>
+
                     <ng-container matColumnDef="saldoFinal">
                         <th mat-header-cell *matHeaderCellDef class="columnName"> Saldo Final </th>
                         <td mat-cell *matCellDef="let cuota" class="column"> {{cuota.saldoFinal | number:'1.2-2'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="flujo">
+                        <th mat-header-cell *matHeaderCellDef class="columnName"> Flujo </th>
+                        <td mat-cell *matCellDef="let cuota" class="column"> {{cuota.flujo | number:'1.2-2'}} </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -82,7 +98,7 @@
             <mat-paginator [pageSizeOptions]="[10, 20, 30, 50]" showFirstLastButtons aria-label="q"></mat-paginator>
             </div>
             <h1>Indicadores Financieros</h1>
-            <h3>VAN: , TIR: , TCEA: , Tasa de Descuento: </h3>
+            <h3>Tasa de Descuento: {{tasaDescuento * 100}}%, VAN: {{van}} , TIR: {{tir * 100}}%</h3>
         </div>
     </div>
 </div>

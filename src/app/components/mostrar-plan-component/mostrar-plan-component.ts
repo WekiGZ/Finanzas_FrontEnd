@@ -17,11 +17,18 @@ export class MostrarPlanComponent {
   planId: number = 0;
   cuotas: Cuota[] = [];
 
+  tasaDescuento: number = 0;
+  van: number = 0;
+  tir: number = 0;
+
+  presicionTir: number = 2500;
+  tirAceptada: boolean = false;
+
   dataSource = new MatTableDataSource<Cuota>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
 
-  displayedColumns: string[] = ['nCuota', 'TEM', 'saldoInicial', 'interes', 'cuota', 'amortizacion', 'riesgo', 'desgravamen', 'saldoFinal'];
+  displayedColumns: string[] = ['nCuota', 'TEM', 'saldoInicial', 'interes', 'cuota', 'amortizacion', 'riesgo', 'desgravamen', 'portes', 'comision', 'saldoFinal', 'flujo'];
 
   menuDesplegado: boolean = true;
 
@@ -38,6 +45,11 @@ export class MostrarPlanComponent {
     this.dataSource.paginator = this.paginator;
   }
 
+  sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+
   cargarPlan() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -47,10 +59,39 @@ export class MostrarPlanComponent {
         this.planService.getPlanById(this.planId).subscribe({
           next: (plan) => {
             this.planService.crearCuotas(plan).subscribe({
-              next: (cuotas) => {
+              next: async (cuotas) => {
                 this.cuotas = cuotas;
                 this.dataSource.data = cuotas;
                 this.cdr.detectChanges();
+                this.tasaDescuento = ((1 + plan.cok) ** (30/360)) - 1;
+                this.tasaDescuento = parseFloat(this.tasaDescuento.toFixed(4));
+                let inversionInicial = (plan.precioPropiedad - plan.cuotaInicial + plan.costoNotarial + plan.costoRegistral + plan.tasacion + plan.comisionDeEstudio + plan.comisionPorActivacion) * (-1);
+                let flujosFuturos = 0;
+                for(let i = 0; i < plan.plazoPrestamo * 12; i++){
+                  flujosFuturos += (cuotas[i].flujo)/((1 + this.tasaDescuento)**(i + 1)); 
+                }
+                this.van = parseFloat((flujosFuturos + inversionInicial).toFixed(2));
+                inversionInicial *= -1;
+                while(this.tirAceptada == false){
+                  flujosFuturos = 0;
+                  for(let j = 0; j < plan.plazoPrestamo * 12; j++){
+                    flujosFuturos += (cuotas[j].flujo/((1 + this.tir)**(j + 1)));
+                  }
+                  //alert("flujos futuros: " + flujosFuturos);
+                  //alert("inversion inicial: " + inversionInicial);
+                  //alert(inversionInicial - flujosFuturos);
+                  if(inversionInicial <= flujosFuturos + this.presicionTir && inversionInicial >= flujosFuturos - this.presicionTir){
+                    this.tirAceptada = true;
+                    parseFloat(this.tir.toFixed(4));
+                  }else{
+                    if(inversionInicial > flujosFuturos){
+                      this.tir -= (0.00009574)
+                    }else{
+                      this.tir += (0.000097392)
+                    }
+                  }
+                  await this.sleep(50);
+                }
               },
               error: (err) => {
                 console.error("Error al generar las cuotas", err);

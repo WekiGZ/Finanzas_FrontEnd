@@ -8,10 +8,20 @@ export class InteresesService {
     "Nominal",
     "Efectiva"
   ]
-
+  
   bancos: Array<string> = [
     "BCP",
+    "Santander",
+    "Mibanco",
+    "Scotiabank",
+    "Banbif",
+    "GNB",
+    "Banco de la Nacion",
+    "Alfin Banco",
+    "Banco Pichincha",
+    "Banco Ripley"
   ]
+
 
   periodos: Array<string> = [
     "Anual",
